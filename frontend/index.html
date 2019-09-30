@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Main Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="./js/lib/d3.js"></script>
+    <script src="./js/lib/JSNetworkX/jsnetworkx.js"></script>
+    <script src="./js/lib/handlebars-v4.1.2.js"></script>
+    <script src="./js/lib/jquery.js"></script>
+
+    <script src="./js/UserClass.js"></script>
+    <script src="./js/GraphClass.js"></script>
+    <script src="./js/contentClass.js"></script>
+    <script src="./js/form.js"></script>
+
+    <link rel="stylesheet" href="css/index.css">
+    <link href="./css/fa/css/all.css" rel="stylesheet">
+    <!--load all styles -->
+
+</head>
+
+<body>
+
+    <!-- <form id="firstEntry">
+        Name: <input type="text" name="name"> <br>
+        <input type="button" onclick="handleFirstEntry()" value="submit">
+    </form> -->
+
+    <div id="graph"></div>
+
+    <div id="personContainer">
+        <h1 class="name">Name</h1>
+        <h2 class="phone">617-271-9070</h2>
+        <h3 class="favorite-stuff">
+            <p>this is some cool stuff</p>
+            <p>this is some cool stuff</p>
+            <p>this is some cool stuff</p>
+            <p>this is some cool stuff</p>
+            <p>this is some cool stuff</p>
+            <p>this is some cool stuff</p>
+        </h3>
+        <div class="socialLinks">
+        </div>
+
+
+    </div>
+
+
+    <script type="text/javascript">
+        var jack = new userClass("jack", 0);
+        var jordan = new userClass("jordan", 1);
+        var chris = new userClass("Chris", 2);
+        var joe = new userClass("Joe", 3);
+        var liz = new userClass("Liz", 4);
+        var ian = new userClass("Ian", 5);
+        var marina = new userClass("Marina", 6);
+        var vick = new userClass("vick", 7);
+        var tina = new userClass("Tina", 8);
+        var mary = new userClass("Mary", 9);
+        var michael = new userClass("Michael", 10);
+        var ty = new userClass("ty", 11);
+        var ray = new userClass("ray", 12);
+
+        jack.addSocialLink("facebook.com/jackdishman");
+        jack.addSocialLink("twitter.com/jackdishman");
+        jack.addSocialLink("instagram.com/jackdishman");
+        jack.addSocialLink("linkedin.com/jackdishman");
+        jack.addSocialLink("spotify.com/jackdishman");
+        jack.addSocialLink("reddit.com/jackdishman");
+        jack.addSocialLink("snapchat.com/jackdishman");
+        jack.addSocialLink("yelp.com/jackdishman");
+
+        chris.addSocialLink("facebook.com/chrishuber");
+        chris.addSocialLink("snapchat.com/chrishuber");
+        chris.addSocialLink("instagram.com/chrishuber");
+        chris.addSocialLink("spotify.com/chrishuber");
+        chris.addSocialLink("yelp.com/chrishuber");
+        chris.addSocialLink("linkedin.com/chrishuber");
+
+        jack.addConnect(jordan);
+        jack.addConnect(chris);
+        chris.addConnect(ian);
+        chris.addConnect(joe);
+        jordan.addConnect(chris);
+        // jack.addConnect(joe);
+        jack.addConnect(ian);
+        jordan.addConnect(marina);
+        liz.addConnect(jordan);
+        marina.addConnect(liz);
+        chris.addConnect(vick);
+        jack.addConnect(vick);
+        ian.addConnect(joe);
+        joe.addConnect(ian);
+        tina.addConnect(chris);
+        tina.addConnect(jordan);
+        chris.addConnect(mary);
+        chris.addConnect(michael);
+        jack.addConnect(mary);
+        jack.addConnect(michael);
+        ty.addConnect(jack);
+        ray.addConnect(jack);
+        ray.addConnect(ty);
+
+        var gJack = new GraphClass(jack);
+        var gChris = new GraphClass(chris);
+
+
+        // gChris.generateFullGraph();
+        gChris.generateMutualGraph(jack);
+        // console.log(jack.getFirstConnectList(chris));
+
+        d3.selectAll('.node')
+            .on('click', handleClick)
+            .on('mouseover', handleMouseOver)
+            .on('mouseout', handleMouseOut);
+
+        function handleClick(d) {
+            var g = new GraphClass(d.data.user);
+            g.generateFullGraph();
+            console.log(d);
+            $(".name").text(d.data.label);
+            d.data.user.getSocialLinks();
+        }
+
+        function handleMouseOver(d, i) {}
+
+        function handleMouseOut(d, i) {}
+
+        // connectsGraph(jack);
+    </script>
+
+</body>
+
+</html>
