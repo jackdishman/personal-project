@@ -1,5 +1,8 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
+const SpotifyStrategy = require('passport-spotify').Strategy;
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 
@@ -38,6 +41,55 @@ passport.use(
                 }
             });
 
+        }
+    )
+);
+
+passport.use(
+    new FacebookStrategy({
+            clientID: keys.facebookClientID,
+            clientSecret: keys.facebookClientSecret,
+            callbackURL: '/auth/facebook/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            console.log('facebook ID:', profile.id);
+            console.log('facebook:', profile.displayName);
+            User.findOne({ facebookID: profile.id }).then(existingUser => {
+                if (existingUser) {
+                    done(null, existingUser);
+                } else {
+                    new User({
+                        facebookID: profile.id,
+                        name: profile.displayName
+                    }).save().then(user => done(null, user));
+                }
+            });
+        }
+    )
+);
+
+passport.use(
+    new TwitterStrategy({
+            consumerKey: keys.twitterClientID,
+            consumerSecret: keys.twitterClientSecret,
+            callbackURL: '/auth/twitter/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            console.log("twitter ID: ", profile.id);
+            console.log("twitter handle: ", profile.username);
+        }
+    )
+);
+
+passport.use(
+    new SpotifyStrategy({
+            clientID: keys.spotifyClientID,
+            clientSecret: keys.spotifyClientSecret,
+            callbackURL: '/auth/spotify/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            console.log("spotify ID: ", profile.id);
+            console.log("recently played: ", profile);
         }
     )
 );
