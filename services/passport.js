@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const InstagramStrategy = require('passport-instagram').Strategy;
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 
@@ -50,15 +51,12 @@ passport.use(
             clientID: keys.facebookClientID,
             clientSecret: keys.facebookClientSecret,
             callbackURL: '/auth/facebook/callback',
-            profileFields: ['id', 'displayName', 'gender'],
+            profileFields: ['id', 'displayName'],
             enableProof: true
         },
         (accessToken, refreshToken, profile, done) => {
-            console.log('facebook ID:', profile.id);
-            console.log('displayName:', profile.displayName);
-            // console.log('birthday: ' + profile.user_birthday);
-            console.log('gender: ' + profile.gender);
             User.findOne({ facebookID: profile.id }).then(existingUser => {
+                console.log(JSON.stringify(profile));
                 if (existingUser) {
                     done(null, existingUser);
                 } else {
@@ -81,6 +79,11 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             console.log("twitter ID: ", profile.id);
             console.log("twitter handle: ", profile.username);
+            console.log(JSON.stringify(profile));
+            console.log("followers_count: " + profile._json.followers_count);
+            console.log("friends_count: " + profile._json.friends_count);
+            console.log("twitter URL: " + profile._json.url);
+
         }
     )
 );
@@ -93,7 +96,19 @@ passport.use(
         },
         (accessToken, refreshToken, profile, done) => {
             console.log("spotify ID: ", profile.id);
-            console.log("recently played: ", profile);
+            console.log("access token: ", accessToken);
         }
     )
 );
+
+passport.use(
+    new InstagramStrategy({
+            clientID: keys.instagramClientID,
+            clientSecret: keys.instagramClientSecret,
+            callbackURL: '/auth/instagram/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            console.log("instagram ID: " + profile.id);
+            console.log(JSON.stringify(profile));
+        })
+)
