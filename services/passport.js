@@ -83,7 +83,6 @@ passport.use(
             console.log("followers_count: " + profile._json.followers_count);
             console.log("friends_count: " + profile._json.friends_count);
             console.log("twitter URL: " + profile._json.url);
-
         }
     )
 );

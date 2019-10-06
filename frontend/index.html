@@ -72,12 +72,6 @@
         jack.addSocialLink("snapchat.com/jackdishman");
         jack.addSocialLink("yelp.com/jackdishman");
 
-        chris.addSocialLink("facebook.com/chrishuber");
-        chris.addSocialLink("snapchat.com/chrishuber");
-        chris.addSocialLink("instagram.com/chrishuber");
-        chris.addSocialLink("spotify.com/chrishuber");
-        chris.addSocialLink("yelp.com/chrishuber");
-        chris.addSocialLink("linkedin.com/chrishuber");
 
         jack.addConnect(jordan);
         jack.addConnect(chris);
@@ -109,7 +103,7 @@
 
         // gChris.generateFullGraph();
         gChris.generateMutualGraph(jack);
-        // console.log(jack.getFirstConnectList(chris));
+        console.log(jack.getFirstConnectList(chris));
 
         d3.selectAll('.node')
             .on('click', handleClick)
