@@ -33,7 +33,15 @@ module.exports = (app) => {
     );
 
 
-    app.get('/auth/google/callback', passport.authenticate('google'));
+    app.get(
+        '/auth/google/callback', 
+        passport.authenticate('google'),
+        (req,res) => {
+            res.redirect('/contracts');
+        }    
+    );
+
+
     app.get('/auth/facebook/callback', passport.authenticate('facebook'));
     app.get('/auth/twitter/callback', passport.authenticate('twitter'));
     app.get('/auth/spotify/callback', passport.authenticate('spotify'));
@@ -48,7 +56,7 @@ module.exports = (app) => {
 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/');
     });
 
     app.get("/api/current_user", (req, res) => {
