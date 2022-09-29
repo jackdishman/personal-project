@@ -32,7 +32,7 @@
         "passport-twitter": "^1.0.4"
     },
     "devDependencies": {
-        "d3": "^5.11.0",
+        "d3": "^7.6.1",
         "jsnetworkx": "^0.3.4"
     }
 }
